@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>开始：使用github建立个人博客 | 朝花夕拾</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="简述如何使用hexo生成静态网页并部署到github上建立个人博客站点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开始：使用github建立个人博客">
+<meta property="og:url" content="https://echomem.github.io/2024/04/13/start/index.html">
+<meta property="og:site_name" content="朝花夕拾">
+<meta property="og:description" content="简述如何使用hexo生成静态网页并部署到github上建立个人博客站点。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-13T14:04:30.000Z">
+<meta property="article:modified_time" content="2024-04-13T15:37:12.831Z">
+<meta property="article:author" content="echomem">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="github">
+<meta property="article:tag" content="blog">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="朝花夕拾" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">朝花夕拾</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">for the past</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://echomem.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-start" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/04/13/start/" class="article-date">
+  <time class="dt-published" datetime="2024-04-13T14:04:30.000Z" itemprop="datePublished">2024-04-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web/">Web</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      开始：使用github建立个人博客
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="简述如何使用hexo生成静态网页并部署到github上建立个人博客站点。"><a href="#简述如何使用hexo生成静态网页并部署到github上建立个人博客站点。" class="headerlink" title="简述如何使用hexo生成静态网页并部署到github上建立个人博客站点。"></a>简述如何使用hexo生成静态网页并部署到github上建立个人博客站点。<br><span id="more"></span></h2><ul>
+<li><a href="#%E5%A6%82%E4%BD%95%E5%BC%80%E5%A7%8B">如何开始？</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8hexo%E5%BB%BA%E7%AB%8Bblog%E9%A1%B9%E7%9B%AE">使用hexo建立Blog项目。</a></li>
+<li><a href="#%E5%8F%91%E5%B8%83%E6%96%87%E7%AB%A0">发布文章</a></li>
+<li><a href="#%E6%9C%AC%E5%9C%B0%E8%B0%83%E8%AF%95">本地调试</a></li>
+<li><a href="#%E9%83%A8%E7%BD%B2%E5%88%B0github">部署到github</a></li>
+</ul>
+<hr>
+<h2 id="如何开始？"><a href="#如何开始？" class="headerlink" title="如何开始？"></a>如何开始？</h2><ol>
+<li>申请github账号（略）</li>
+<li>安装node.js<br>由于hexo基于node.js，所以需要先安装node.js。可在<a target="_blank" rel="noopener" href="https://nodejs.org/en">官网下载</a>，按照默认配置完成安装（略）。<br>安装完成后确认npm可用，在cmd下输入以下命令，显示版本号则确认安装就绪。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm --version</span><br></pre></td></tr></table></figure></li>
+<li>安装hexo</li>
+</ol>
+<ul>
+<li>在cmd窗口下使用以下命令安装：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\Projects&gt;npm install hexo-cli -g</span><br></pre></td></tr></table></figure></li>
+<li>测试是否安装成功：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\Projects&gt;hexo --version</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol>
+<li>github建立新Repository.<br>建立过程略，注意仓库名称为username.github.io，然后在Setting页面，找到Pages标签，设置Source等即可。</li>
+</ol>
+<h2 id="使用hexo建立Blog项目。"><a href="#使用hexo建立Blog项目。" class="headerlink" title="使用hexo建立Blog项目。"></a>使用hexo建立Blog项目。</h2><ul>
+<li>建立项目目录<br>在工程目录下，输入以下命令：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">D:\Projects&gt;hexo init Blog</span><br><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">←[32mINFO ←[39m Install dependencies</span><br><span class="line">INFO  Start blogging with Hexo!</span><br></pre></td></tr></table></figure>
+命令完成后可以看到生成一个文件夹Blog，进入Blog目录可以看到hexo为我们生成了以下目录和文件：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">D:\Projects&gt;<span class="built_in">cd</span> Blog</span><br><span class="line"></span><br><span class="line">D:\Projects\Blog&gt;<span class="built_in">dir</span></span><br><span class="line"></span><br><span class="line">2024/04/13  21:57    &lt;DIR&gt;          .</span><br><span class="line">2024/04/13  21:57    &lt;DIR&gt;          ..</span><br><span class="line">2024/04/13  21:57    &lt;DIR&gt;          .github</span><br><span class="line">2024/04/13  21:57                89 .gitignore</span><br><span class="line">2024/04/13  21:57    &lt;DIR&gt;          node_modules</span><br><span class="line">2024/04/13  21:57            96,081 package-lock.json</span><br><span class="line">2024/04/13  21:57               641 package.json</span><br><span class="line">2024/04/13  21:57    &lt;DIR&gt;          scaffolds</span><br><span class="line">2024/04/13  21:57    &lt;DIR&gt;          <span class="built_in">source</span></span><br><span class="line">2024/04/13  21:57    &lt;DIR&gt;          themes</span><br><span class="line">2024/04/13  21:57                 0 _config.landscape.yml</span><br><span class="line">2024/04/13  21:57             2,547 _config.yml</span><br></pre></td></tr></table></figure></li>
+<li>修改默认配置文件<br>目录下的_config.yml文件是配置文件，修改以下几项配置。<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">朝花夕拾</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">&#x27;for the past&#x27;</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="attr">keywords:</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">echomem</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># URL</span></span><br><span class="line"><span class="comment">## Set your site url here. For example, if you use GitHub Page, </span></span><br><span class="line"><span class="comment">## set url as &#x27;https://username.github.io/project&#x27;</span></span><br><span class="line"><span class="attr">url:</span> <span class="string">https://echomem.github.io</span></span><br></pre></td></tr></table></figure></li>
+<li>修改脚手架<br>工程目录<code>scaffolds</code>下存放的是模板文件，分别为：<code>page.md</code>,<code>post.md</code>,<code>draft.md</code>分别对应页面模板、文章模板及草稿模板，这里修改页面模板，增加每个文章的目录（categories）及标签（tags）,修改后的<code>post.md</code>文件如下：<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> &#123;&#123; <span class="string">title</span> &#125;&#125;</span><br><span class="line"><span class="attr">date:</span> &#123;&#123; <span class="string">date</span> &#125;&#125;</span><br><span class="line"><span class="attr">categories:</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="发布文章"><a href="#发布文章" class="headerlink" title="发布文章"></a>发布文章</h2><p>使用hexo命令生成一篇新文章”start”，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">D:\Projects\Blog&gt;hexo new <span class="string">&quot;start&quot;</span></span><br><span class="line">INFO  Validating config</span><br><span class="line">INFO  Created: D:\Projects\Blog\<span class="built_in">source</span>\_posts\start.md</span><br></pre></td></tr></table></figure>
+<p>然后在<code>source\_posts</code>目录下可以看到生成的markdown文件<code>start.md</code>，将markdown文件的头修改下，设置目录及标签参数，如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">开始：使用github建立个人博客</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2024-04-13 22:04:30</span></span><br><span class="line"><span class="attr">categories:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">Web</span></span><br><span class="line"><span class="attr">tags:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">hexo</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">github</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<h2 id="本地调试"><a href="#本地调试" class="headerlink" title="本地调试"></a>本地调试</h2><p>使用hexo命令生成public文件及开启本地web server，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">D:\Projects\Blog&gt;hexo generate</span><br><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Files loaded <span class="keyword">in</span> 108 ms</span><br><span class="line">INFO  Generated: archives/index.html</span><br><span class="line">INFO  Generated: archives/2024/04/index.html</span><br><span class="line">INFO  Generated: archives/2024/index.html</span><br><span class="line">INFO  Generated: index.html</span><br><span class="line">INFO  Generated: css/style.css</span><br><span class="line">INFO  Generated: fancybox/jquery.fancybox.min.css</span><br><span class="line">INFO  Generated: js/script.js</span><br><span class="line">INFO  Generated: fancybox/jquery.fancybox.min.js</span><br><span class="line">INFO  Generated: js/jquery-3.6.4.min.js</span><br><span class="line">INFO  Generated: css/images/banner.jpg</span><br><span class="line">INFO  Generated: 2024/04/13/hello-world/index.html</span><br><span class="line">INFO  11 files generated <span class="keyword">in</span> 251 ms</span><br><span class="line"></span><br><span class="line">D:\Projects\Blog&gt;hexo server</span><br><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.</span><br><span class="line">INFO  Catch you later</span><br></pre></td></tr></table></figure>
+<p>也可以使用命令连用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\Projects\Blog&gt;hexo clean &amp;&amp; hexo generate &amp;&amp; hexo server</span><br></pre></td></tr></table></figure>
+<p><code>hexo clean</code>是清除缓存，<code>hexo generate</code>生成静态文件，<code>hexo server</code>开启本地web server。<br>运行成功后可在浏览器中输入<code>http://localhost:4000/</code>查看效果。</p>
+<h2 id="部署到github"><a href="#部署到github" class="headerlink" title="部署到github"></a>部署到github</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://echomem.github.io/2024/04/13/start/" data-id="cluy9lpvo000094n2b2gx43f2" data-title="开始：使用github建立个人博客" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/" rel="tag">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/github/" style="font-size: 10px;">github</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">四月 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/13/start/">开始：使用github建立个人博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 echomem<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
