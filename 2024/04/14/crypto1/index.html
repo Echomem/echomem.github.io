@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"echomem.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="密码学的发展历程及古典时期的加密与解密方式概述等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="密码学基础（一）">
+<meta property="og:url" content="https://echomem.github.io/2024/04/14/crypto1/index.html">
+<meta property="og:site_name" content="朝花夕拾">
+<meta property="og:description" content="密码学的发展历程及古典时期的加密与解密方式概述等">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-14T04:01:01.000Z">
+<meta property="article:modified_time" content="2024-04-14T07:43:59.343Z">
+<meta property="article:author" content="Echomem">
+<meta property="article:tag" content="crypto">
+<meta property="article:tag" content="rust">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://echomem.github.io/2024/04/14/crypto1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>密码学基础（一） | 朝花夕拾</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">朝花夕拾</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Continue the past</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://echomem.github.io/2024/04/14/crypto1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Echomem">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="朝花夕拾">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          密码学基础（一）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-04-14 12:01:01 / 修改时间：15:43:59" itemprop="dateCreated datePublished" datetime="2024-04-14T12:01:01+08:00">2024-04-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cryptography/" itemprop="url" rel="index"><span itemprop="name">Cryptography</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>密码学的发展历程及古典时期的加密与解密方式概述等</p>
+<span id="more"></span>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文尝试将密码学的发展历程以及现代计算机使用的一些密码学原理进行整理以供参考及学习，涉及到一些简单的数学以及计算机知识，知识点来自网上收集整理的材料、密码学相关书籍及本人学习过程中的一些思考及总结，如有谬误之处，欢迎大家一起探讨。</p>
+<h2 id="密码学的发展简介。"><a href="#密码学的发展简介。" class="headerlink" title="密码学的发展简介。"></a>密码学的发展简介。</h2><p>密码学（英语：Cryptography）是一门研究信息<strong>加密与解密</strong>的学科，其历史可以追溯到古典时期，真正意义上的密码学是到20世纪中期，随着计算机的出现，才真正得以成为一门学科。密码学可分为古典密码学和现代密码学。在西方语中，密码学一词源于希腊语kryptós“隐藏的”，和gráphein“书写”，所以可以看出，古典密码学主要关注信息的保密书写和传递，以及与其相对应的破译方法。而现代密码学不只关注信息保密问题，还同时涉及信息完整性验证（消息验证码）、信息发布的不可抵赖性（数字签名）、以及在分布式计算中产生的来源于内部和外部的攻击的所有信息安全问题。古典密码学与现代密码学的重要区别在于，古典密码学的编码和破译通常依赖于设计者和敌手的创造力与技巧，作为一种实用性艺术存在，并没有对于密码学原件的清晰定义。而现代密码学则起源于20世纪末出现的大量相关理论，这些理论使得现代密码学成为了一种可以系统而严格地学习的科学。</p>
+<h2 id="古典密码学"><a href="#古典密码学" class="headerlink" title="古典密码学"></a>古典密码学</h2><p>在古典时期，战争催生了对信息保密传输的需求，由于通讯手段落后，并没有形成系统的密码学理论，大家可以开动脑筋想一想，在古典时期怎样可以完成信息的保密传输？以及怎样破译密文？下面选取一些历史上使用的一些方法。</p>
+<h3 id="隐藏法"><a href="#隐藏法" class="headerlink" title="隐藏法"></a>隐藏法</h3><p>隐藏法，顾名思义，就是将信息隐藏起来，再敌方的眼皮底下将信息传递出去。在古典时期，隐藏法传递信息又叫隐写术，这从密码学的词根就可以看出来。信息发送者主要是通过一些化学的手段在纸上或者其它物质上书写隐形文字，接收者再通过化学方法使文字再显示出来。如什么米汤写字，碘酒再显色等等方式。<br>隐藏法的缺点是在古典时期可以制作隐写墨水之类的方法就那么几种，随着信息的交流，这些方法慢慢就变得广为人知了，一旦某种隐写方式被传播开来，那么这种隐写方式也就不再有效了。<br>虽然隐藏法是古典时期使用的一个简单的加密方式，但是不是代表就是落后的。现代计算机时代也存在隐藏法的一些延续，如：有一种方式是将信息隐藏于图像文件中，由于每幅数字图像都有很多的像素点点组成，更改某些像素点位的值并不能让此图像看起来有什么特殊的，于是就有将信息写入图像的某些特定位置这种隐藏方式，接收者再根据某种方式就可以从图像中提取信息了。</p>
+<h3 id="替换加密法"><a href="#替换加密法" class="headerlink" title="替换加密法"></a>替换加密法</h3><p>随着时间的推移，隐写这种方式已经越来越不能适应信息的保密传输的需求了，据传罗马共和国时期，凯撒发明了一种加密方法用于和他的将军们进行联系，也叫<strong>凯撒密码</strong>（Caesar cipher）或者<strong>凯撒加密</strong>、<strong>凯撒变换</strong>等， 凯撒密码是一种替换加密技术，就是将字母表中的字母向前或者向后偏移一个固定的数目，将密码原文加密形成密文，解密的方法也很简单，将密文逆序后移或者前移相应的数字就可以了。凯撒密码通常被作为其它更复杂加密的一个步骤，如维吉尼亚密码就是凯撒加密的一个变种。</p>
+<ul>
+<li>凯撒密码（Caesar cipher）。</li>
+<li>维吉尼亚密码（Vigenere cipher）。</li>
+</ul>
+<h4 id="凯撒密码（Caesar-cipher）"><a href="#凯撒密码（Caesar-cipher）" class="headerlink" title="凯撒密码（Caesar cipher）"></a>凯撒密码（Caesar cipher）</h4><h5 id="凯撒密码的原理"><a href="#凯撒密码的原理" class="headerlink" title="凯撒密码的原理"></a>凯撒密码的原理</h5><p>凯撒密码依赖一个替换字母表，如将英文的26个字母，每个字母后移2位就形成了一个密文字母表。</p>
+<blockquote>
+<p>明文字母表：ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>密文字母表：CDEFGHIJKLMNOPQRSTUVWXYZAB</p>
+</blockquote>
+<p>表格中上下两张字母表中的原文字母和密文字母一一对应，加密的方式是：将需要加密的原文逐个字母地通过对照表中的明文字母，替换成密文字母表中的字母。如明文中的字母A则翻译成密文时就使用相对应的密文字母C来替换，如要传输一个信息<code>ATTACK</code>，则按照以上规则<code>A-&gt;C</code>，<code>T-&gt;V</code>，<code>C-&gt;E</code>，<code>K-&gt;M</code>密文就变成了<code>CVVCEM</code>。<br>解密的方式是：将接受到的密文逐个字母地通过对照表中的密文字母替换回原文字母表中的字母。</p>
+<h5 id="凯撒密码的破解方式"><a href="#凯撒密码的破解方式" class="headerlink" title="凯撒密码的破解方式"></a>凯撒密码的破解方式</h5><ul>
+<li>穷举法：由于字母替换的方式最多只有26种，随机尝试一种加密数字，只要得到有意义的单词就可以成功破解。</li>
+<li>频率法：这种方式字母会固定加密成另外一个字母，由于英文中某些字母使用的频率不同（E的使用频率最高），只要统计一定量的密文就可以分析出那种字母出现的频率最高，基本就可以确定出该密文字母对应的原文字母，从而可以推出字母移动数字，即破解。</li>
+</ul>
+<h5 id="凯撒密码的数学表达"><a href="#凯撒密码的数学表达" class="headerlink" title="凯撒密码的数学表达"></a>凯撒密码的数学表达</h5><p>可见凯撒密码是一种简单易破解的加密解密方式，但是考虑到在古典时期识字的人都不多，这种加密方式在一定程度上是够用的。<br>凯撒加密引入了一个密钥的概念，即字母移动的位数即为密钥。这样加密解密的数学表达可以如下：</p>
+<blockquote>
+<p>假定：原文为M，密钥为K，密文为D。<br>加密的数学过程如下：<br>D &#x3D; F(K, M)<br>解密的数学过程如下：<br>M &#x3D; F(-1)(K, D)</p>
+</blockquote>
+<h5 id="凯撒密码的程序模拟"><a href="#凯撒密码的程序模拟" class="headerlink" title="凯撒密码的程序模拟"></a>凯撒密码的程序模拟</h5><p>Rust语言描述，如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">Encryptor</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="comment">// 加密解密器接口</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(key: T) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span>; <span class="comment">// 返回一个Encryptor对象。</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">encrypt</span>(&amp;<span class="keyword">self</span>, msg: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span>; <span class="comment">// 加密msg，返回加密后的字符串</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">decrypt</span>(&amp;<span class="keyword">self</span>, msg: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span>; <span class="comment">// 解密msg，返回解密后的字符串</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Caesar</span> &#123;</span><br><span class="line">    offset: <span class="type">u8</span>, <span class="comment">// 字母偏移量即密钥。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Encryptor</span>&lt;<span class="type">u8</span>&gt; <span class="keyword">for</span> <span class="title class_">Caesar</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(key: <span class="type">u8</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="comment">// 返回一个Caesar对象。</span></span><br><span class="line">        Caesar &#123;</span><br><span class="line">            offset: key % <span class="number">26</span>, <span class="comment">// Caesar加密法中大于26的密钥无意义。</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">encrypt</span>(&amp;<span class="keyword">self</span>, msg: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="comment">// 通过结构体自带的密钥加密msg，返回加密后的字符串。</span></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">encrypted_msg</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">uppercase_msg</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(msg).<span class="title function_ invoke__">to_uppercase</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">alphabet</span>: <span class="type">Vec</span>&lt;<span class="type">char</span>&gt; = (<span class="string">&#x27;A&#x27;</span>..=<span class="string">&#x27;Z&#x27;</span>).<span class="title function_ invoke__">collect</span>();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> <span class="variable">letter</span> <span class="keyword">in</span> uppercase_msg.<span class="title function_ invoke__">chars</span>() &#123;</span><br><span class="line">            <span class="keyword">match</span> letter &#123;</span><br><span class="line">                <span class="string">&#x27;A&#x27;</span>..=<span class="string">&#x27;Z&#x27;</span> =&gt; &#123;</span><br><span class="line">                    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">index</span>: <span class="type">usize</span> = letter <span class="keyword">as</span> <span class="type">usize</span> - <span class="string">&#x27;A&#x27;</span> <span class="keyword">as</span> <span class="type">usize</span>;</span><br><span class="line">                    index = (index + <span class="keyword">self</span>.offset <span class="keyword">as</span> <span class="type">usize</span>) % <span class="number">26</span>;</span><br><span class="line">                    encrypted_msg.<span class="title function_ invoke__">push</span>(alphabet[index]);</span><br><span class="line">                &#125;</span><br><span class="line">                _ =&gt; &#123;</span><br><span class="line">                    encrypted_msg.<span class="title function_ invoke__">push</span>(letter);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        encrypted_msg</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">decrypt</span>(&amp;<span class="keyword">self</span>, msg: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="comment">// 通过密钥解密密文msg，返回解密后的字符串。</span></span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">decrypted_msg</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">uppercase_msg</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(msg).<span class="title function_ invoke__">to_uppercase</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">alphabet</span>: <span class="type">Vec</span>&lt;<span class="type">char</span>&gt; = (<span class="string">&#x27;A&#x27;</span>..=<span class="string">&#x27;Z&#x27;</span>).<span class="title function_ invoke__">collect</span>();</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">letter</span> <span class="keyword">in</span> uppercase_msg.<span class="title function_ invoke__">chars</span>() &#123;</span><br><span class="line">            <span class="keyword">match</span> letter &#123;</span><br><span class="line">                <span class="string">&#x27;A&#x27;</span>..=<span class="string">&#x27;Z&#x27;</span> =&gt; &#123;</span><br><span class="line">                    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">index</span>: <span class="type">usize</span> = letter <span class="keyword">as</span> <span class="type">usize</span> - <span class="string">&#x27;A&#x27;</span> <span class="keyword">as</span> <span class="type">usize</span>;</span><br><span class="line">                    index = (index + <span class="number">26</span> - <span class="keyword">self</span>.offset <span class="keyword">as</span> <span class="type">usize</span>) % <span class="number">26</span>;</span><br><span class="line">                    decrypted_msg.<span class="title function_ invoke__">push</span>(alphabet[index]);</span><br><span class="line">                &#125;</span><br><span class="line">                _ =&gt; &#123;</span><br><span class="line">                    decrypted_msg.<span class="title function_ invoke__">push</span>(letter);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        decrypted_msg</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">caesar</span> = Caesar::<span class="title function_ invoke__">new</span>(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">text</span> = <span class="string">&quot;The attack will be at seven pm today&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">encrypted_text</span> = caesar.<span class="title function_ invoke__">encrypt</span>(text);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;origin message:[&#123;&#125;]&quot;</span>, text);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;encrypted message:[&#123;&#125;]&quot;</span>, encrypted_text);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">decrtpted_text</span> = caesar.<span class="title function_ invoke__">decrypt</span>(&amp;encrypted_text);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;decrypted message:[&#123;&#125;]&quot;</span>, decrtpted_text);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="维吉尼亚密码（Vigenere-cipher）"><a href="#维吉尼亚密码（Vigenere-cipher）" class="headerlink" title="维吉尼亚密码（Vigenere cipher）"></a>维吉尼亚密码（Vigenere cipher）</h4><h5 id="维吉尼亚密码的原理"><a href="#维吉尼亚密码的原理" class="headerlink" title="维吉尼亚密码的原理"></a>维吉尼亚密码的原理</h5><p><strong>维吉尼亚密码</strong>（法语：Chiffre de Vigenère，又译<strong>维热纳尔密码</strong>），是凯撒密码的一个变种。发展历史见参考文献中的维基百科。<br>在一个凯撒密码中，字母表中的每一字母都会作一定的偏移，例如偏移量为3时，A就转换为了D、B转换为了E……而维吉尼亚密码则是由一些偏移量不同的凯撒密码组成，使用以下偏移表格进行加密解密。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+<th>F</th>
+<th>G</th>
+<th>H</th>
+<th>I</th>
+<th>J</th>
+<th>K</th>
+<th>L</th>
+<th>M</th>
+<th>N</th>
+<th>O</th>
+<th>P</th>
+<th>Q</th>
+<th>R</th>
+<th>S</th>
+<th>T</th>
+<th>U</th>
+<th>V</th>
+<th>W</th>
+<th>X</th>
+<th>Y</th>
+<th>Z</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+</tr>
+<tr>
+<td>B</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+</tr>
+<tr>
+<td>C</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+</tr>
+<tr>
+<td>D</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>E</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+</tr>
+<tr>
+<td>F</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+</tr>
+<tr>
+<td>G</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+</tr>
+<tr>
+<td>H</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+</tr>
+<tr>
+<td>I</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+</tr>
+<tr>
+<td>J</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+</tr>
+<tr>
+<td>K</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+</tr>
+<tr>
+<td>L</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+</tr>
+<tr>
+<td>M</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+</tr>
+<tr>
+<td>N</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+</tr>
+<tr>
+<td>O</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+</tr>
+<tr>
+<td>P</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+</tr>
+<tr>
+<td>R</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>S</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+</tr>
+<tr>
+<td>T</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+</tr>
+<tr>
+<td>U</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+</tr>
+<tr>
+<td>V</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+</tr>
+<tr>
+<td>W</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+</tr>
+<tr>
+<td>X</td>
+<td>X</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>Y</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>Z</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+<td>G</td>
+<td>H</td>
+<td>I</td>
+<td>J</td>
+<td>K</td>
+<td>L</td>
+<td>M</td>
+<td>N</td>
+<td>O</td>
+<td>P</td>
+<td>Q</td>
+<td>R</td>
+<td>S</td>
+<td>T</td>
+<td>U</td>
+<td>V</td>
+<td>W</td>
+<td>X</td>
+<td>Y</td>
+</tr>
+</tbody></table>
+<p>例如，假设明文为：<code>ATTACKATDOWN</code>，选择某一个关键词作为密钥，如关键词为<code>HELLO</code>（密钥）。<br>加密过程为：</p>
+<ul>
+<li>关键词循环使用，扩展到和明文一样长，这样每个明文字母就对应一个关键词字母，如下：<table>
+<thead>
+<tr>
+<th>明文字母</th>
+<th>A</th>
+<th>T</th>
+<th>T</th>
+<th>A</th>
+<th>C</th>
+<th>K</th>
+<th>A</th>
+<th>T</th>
+<th>D</th>
+<th>O</th>
+<th>W</th>
+<th>N</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对应的关键词字母</td>
+<td>H</td>
+<td>E</td>
+<td>L</td>
+<td>L</td>
+<td>O</td>
+<td>H</td>
+<td>E</td>
+<td>L</td>
+<td>L</td>
+<td>O</td>
+<td>H</td>
+<td>E</td>
+</tr>
+</tbody></table>
+</li>
+<li>在表中通过明文字母确定列，通过关键词字母确定行，得到一个加密字母。如密文A和关键词H查找到的就是H。</li>
+<li>将所有的加密字母组合在一起就是密文。<br>如上得到密文为：<table>
+<thead>
+<tr>
+<th>明文字母</th>
+<th>A</th>
+<th>T</th>
+<th>T</th>
+<th>A</th>
+<th>C</th>
+<th>K</th>
+<th>A</th>
+<th>T</th>
+<th>D</th>
+<th>O</th>
+<th>W</th>
+<th>N</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>对应的关键词字母</td>
+<td>H</td>
+<td>E</td>
+<td>L</td>
+<td>L</td>
+<td>O</td>
+<td>H</td>
+<td>E</td>
+<td>L</td>
+<td>L</td>
+<td>O</td>
+<td>H</td>
+<td>E</td>
+</tr>
+<tr>
+<td>密文字母</td>
+<td>H</td>
+<td>X</td>
+<td>E</td>
+<td>L</td>
+<td>Q</td>
+<td>R</td>
+<td>E</td>
+<td>E</td>
+<td>O</td>
+<td>C</td>
+<td>D</td>
+<td>R</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p>解密的过程为：</p>
+<ul>
+<li>依照加密过程，关键词循环使用，扩展到和密文一样长，每个密文字母对应一个关键词字母。</li>
+<li>在表中使用关键词字母确定行，使用密文字母确定列，得到的字母就是明文字母。</li>
+<li>将所有明文字母组合在一起得到明文。</li>
+</ul>
+<h5 id="维吉尼亚密码的破解"><a href="#维吉尼亚密码的破解" class="headerlink" title="维吉尼亚密码的破解"></a>维吉尼亚密码的破解</h5><p>对包括维吉尼亚密码在内的所有多表密码的破译都是以字母频率为基础的，但直接的频率分析却并不适用。例如，如果P是密文中出现次数最多的字母，则P很有可能对应E（前提是明文的语言为英语）。原因在于E是英语中使用频率最高的字母。然而，由于在维吉尼亚密码中，E可以被加密成不同的密文，因而简单的频率分析在这里并没有用。</p>
+<p>破译维吉尼亚密码的关键在于它的密钥是循环重复的。如果我们知道了密钥的长度，那密文就可以被看作是交织在一起的凯撒密码，而其中每一个都可以单独破解。使用卡西斯基试验和弗里德曼试验来得到密钥的长度。</p>
+<p>详见参考文献中的维基百科。</p>
+<h5 id="维吉尼亚密码的程序模拟"><a href="#维吉尼亚密码的程序模拟" class="headerlink" title="维吉尼亚密码的程序模拟"></a>维吉尼亚密码的程序模拟</h5><p>Rust程序描述，如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">pub</span> <span class="keyword">trait</span> <span class="title class_">Encryptor</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="comment">// 加密解密器接口</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(key: T) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span>; <span class="comment">// 返回一个Encryptor对象。</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">encrypt</span>(&amp;<span class="keyword">self</span>, msg: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span>; <span class="comment">// 加密msg，返回加密后的字符串</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">decrypt</span>(&amp;<span class="keyword">self</span>, msg: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span>; <span class="comment">// 解密msg，返回解密后的字符串</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Vigenere</span> &#123;</span><br><span class="line">    key: <span class="type">Vec</span>&lt;<span class="type">char</span>&gt;, <span class="comment">// 密钥字符数组。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Encryptor</span>&lt;&amp;<span class="type">str</span>&gt; <span class="keyword">for</span> <span class="title class_">Vigenere</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(key: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="keyword">Self</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">upper_word</span> = key.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">to_uppercase</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">key</span> = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">letter</span> <span class="keyword">in</span> upper_word.<span class="title function_ invoke__">chars</span>() &#123;</span><br><span class="line">            <span class="keyword">if</span> letter &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; letter &lt;= <span class="string">&#x27;Z&#x27;</span> &#123;</span><br><span class="line">                key.<span class="title function_ invoke__">push</span>(letter);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        Vigenere &#123; key &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">encrypt</span>(&amp;<span class="keyword">self</span>, msg: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">encrypted_msg</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">upper_msg</span>: <span class="type">String</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(msg).<span class="title function_ invoke__">to_uppercase</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">alphabet</span>: <span class="type">Vec</span>&lt;<span class="type">char</span>&gt; = (<span class="string">&#x27;A&#x27;</span>..=<span class="string">&#x27;Z&#x27;</span>).<span class="title function_ invoke__">collect</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">index</span> = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">letter</span> <span class="keyword">in</span> upper_msg.<span class="title function_ invoke__">chars</span>() &#123;</span><br><span class="line">            <span class="keyword">match</span> letter &#123;</span><br><span class="line">                <span class="string">&#x27;A&#x27;</span>..=<span class="string">&#x27;Z&#x27;</span> =&gt; &#123;</span><br><span class="line">                    <span class="keyword">let</span> <span class="variable">offset</span> = <span class="keyword">self</span>.key[index];</span><br><span class="line">                    <span class="keyword">let</span> <span class="variable">offset</span>: <span class="type">usize</span> = offset <span class="keyword">as</span> <span class="type">usize</span> - <span class="string">&#x27;A&#x27;</span> <span class="keyword">as</span> <span class="type">usize</span>;</span><br><span class="line">                    <span class="keyword">let</span> <span class="variable">digit</span> = (letter <span class="keyword">as</span> <span class="type">usize</span> - <span class="string">&#x27;A&#x27;</span> <span class="keyword">as</span> <span class="type">usize</span> + offset) % <span class="number">26</span>;</span><br><span class="line">                    encrypted_msg.<span class="title function_ invoke__">push</span>(alphabet[digit]);</span><br><span class="line">                    index = (index + <span class="number">1</span>) % <span class="keyword">self</span>.key.<span class="title function_ invoke__">len</span>();</span><br><span class="line">                &#125;</span><br><span class="line">                _ =&gt; &#123;</span><br><span class="line">                    encrypted_msg.<span class="title function_ invoke__">push</span>(letter);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        encrypted_msg</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">decrypt</span>(&amp;<span class="keyword">self</span>, msg: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">decrypted_msg</span> = <span class="type">String</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">upper_msg</span>: <span class="type">String</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(msg).<span class="title function_ invoke__">to_uppercase</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">alphabet</span>: <span class="type">Vec</span>&lt;<span class="type">char</span>&gt; = (<span class="string">&#x27;A&#x27;</span>..=<span class="string">&#x27;Z&#x27;</span>).<span class="title function_ invoke__">collect</span>();</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">index</span> = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">letter</span> <span class="keyword">in</span> upper_msg.<span class="title function_ invoke__">chars</span>() &#123;</span><br><span class="line">            <span class="keyword">match</span> letter &#123;</span><br><span class="line">                <span class="string">&#x27;A&#x27;</span>..=<span class="string">&#x27;Z&#x27;</span> =&gt; &#123;</span><br><span class="line">                    <span class="keyword">let</span> <span class="variable">offset</span> = <span class="keyword">self</span>.key[index];</span><br><span class="line">                    <span class="keyword">let</span> <span class="variable">offset</span>: <span class="type">usize</span> = offset <span class="keyword">as</span> <span class="type">usize</span> - <span class="string">&#x27;A&#x27;</span> <span class="keyword">as</span> <span class="type">usize</span>;</span><br><span class="line">                    <span class="keyword">let</span> <span class="variable">digit</span> = (letter <span class="keyword">as</span> <span class="type">usize</span> - <span class="string">&#x27;A&#x27;</span> <span class="keyword">as</span> <span class="type">usize</span> + <span class="number">26</span> - offset) % <span class="number">26</span>;</span><br><span class="line">                    decrypted_msg.<span class="title function_ invoke__">push</span>(alphabet[digit]);</span><br><span class="line">                    index = (index + <span class="number">1</span>) % <span class="keyword">self</span>.key.<span class="title function_ invoke__">len</span>();</span><br><span class="line">                &#125;</span><br><span class="line">                _ =&gt; &#123;</span><br><span class="line">                    decrypted_msg.<span class="title function_ invoke__">push</span>(letter);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        decrypted_msg</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">text</span> = <span class="string">&quot;We will attack newtown tonight&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">key</span> = <span class="string">&quot;Emily&quot;</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">vigenere</span> = Vigenere::<span class="title function_ invoke__">new</span>(key);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;origin message:[&#123;&#125;]&quot;</span>, text);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;key:[&#123;&#125;]&quot;</span>, key);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">encrypted_text</span> = vigenere.<span class="title function_ invoke__">encrypt</span>(text);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;encrypted message:[&#123;&#125;]&quot;</span>, encrypted_text);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">decrypted_text</span> = vigenere.<span class="title function_ invoke__">decrypt</span>(&amp;encrypted_text);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;decrypted message:[&#123;&#125;]&quot;</span>, decrypted_text);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考文献。"><a href="#参考文献。" class="headerlink" title="参考文献。"></a>参考文献。</h2><p>[1] Wikipedia中文 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AF%86%E7%A0%81%E5%AD%A6">密码学</a><br>[2] Wikipedia中文 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%87%B1%E6%92%92%E5%AF%86%E7%A2%BC">凯撒密码</a><br>[3] Wikipedia中文 <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BB%B4%E5%90%89%E5%B0%BC%E4%BA%9A%E5%AF%86%E7%A0%81">维吉尼亚密码</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/crypto/" rel="tag"># crypto</a>
+              <a href="/tags/rust/" rel="tag"># rust</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/04/13/start/" rel="prev" title="开始：使用github建立个人博客">
+      <i class="fa fa-chevron-left"></i> 开始：使用github建立个人博客
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E5%AD%A6%E7%9A%84%E5%8F%91%E5%B1%95%E7%AE%80%E4%BB%8B%E3%80%82"><span class="nav-number">2.</span> <span class="nav-text">密码学的发展简介。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81%E5%AD%A6"><span class="nav-number">3.</span> <span class="nav-text">古典密码学</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">隐藏法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2%E5%8A%A0%E5%AF%86%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">替换加密法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%AF%E6%92%92%E5%AF%86%E7%A0%81%EF%BC%88Caesar-cipher%EF%BC%89"><span class="nav-number">3.2.1.</span> <span class="nav-text">凯撒密码（Caesar cipher）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%AF%E6%92%92%E5%AF%86%E7%A0%81%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">凯撒密码的原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%AF%E6%92%92%E5%AF%86%E7%A0%81%E7%9A%84%E7%A0%B4%E8%A7%A3%E6%96%B9%E5%BC%8F"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">凯撒密码的破解方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%AF%E6%92%92%E5%AF%86%E7%A0%81%E7%9A%84%E6%95%B0%E5%AD%A6%E8%A1%A8%E8%BE%BE"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">凯撒密码的数学表达</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%AF%E6%92%92%E5%AF%86%E7%A0%81%E7%9A%84%E7%A8%8B%E5%BA%8F%E6%A8%A1%E6%8B%9F"><span class="nav-number">3.2.1.4.</span> <span class="nav-text">凯撒密码的程序模拟</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%B4%E5%90%89%E5%B0%BC%E4%BA%9A%E5%AF%86%E7%A0%81%EF%BC%88Vigenere-cipher%EF%BC%89"><span class="nav-number">3.2.2.</span> <span class="nav-text">维吉尼亚密码（Vigenere cipher）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%B4%E5%90%89%E5%B0%BC%E4%BA%9A%E5%AF%86%E7%A0%81%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">维吉尼亚密码的原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%B4%E5%90%89%E5%B0%BC%E4%BA%9A%E5%AF%86%E7%A0%81%E7%9A%84%E7%A0%B4%E8%A7%A3"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">维吉尼亚密码的破解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%B4%E5%90%89%E5%B0%BC%E4%BA%9A%E5%AF%86%E7%A0%81%E7%9A%84%E7%A8%8B%E5%BA%8F%E6%A8%A1%E6%8B%9F"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">维吉尼亚密码的程序模拟</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E3%80%82"><span class="nav-number">4.</span> <span class="nav-text">参考文献。</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Echomem</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Echomem" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Echomem" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Echomem</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
